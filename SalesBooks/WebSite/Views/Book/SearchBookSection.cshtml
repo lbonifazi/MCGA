@@ -1,0 +1,53 @@
+﻿@model ViewModels.BookModel
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("#btnSearch").on("click", function () {
+            var val = $('#tbxSearchByName').val();
+            $.ajax({
+                url: "@Url.Action("SearchByTitle", "Book")",
+                type: "GET",
+                data: { SearchByTitle: val }
+            })
+            .done(function(partialViewResult) {
+                $("#SearchBookSection").html(partialViewResult);
+            });
+        });
+
+        $("#bookSelection").on("change", function () {
+            var val = $("#bookSelection :checked").val();
+                $.ajax({
+                    url: "@Url.Action("EditBook", "Book")",
+                    type: "GET",
+                data: { bookId: val }
+            })
+            .done(function(partialViewResult) {
+                $("#BookDataSection").html(partialViewResult);
+            });
+        });
+    });
+</script>
+
+<h3>Busqueda de Libro</h3>
+    <div class="row">
+        <div class="form-group col-md-12">
+            <label class="form-inline">Nombre del Libro</label>
+            <div class="input-group">
+                <input id="tbxSearchByName" class="form-control" type="text" name="SearchByTitle" value="@Model.Book.Title" required title="Ingrese el nombre del libro" />
+                <span class="input-group-btn">
+                    <input id="btnSearch" class="btn btn-primary" type="submit" name="btnSearch" value="Buscar" />
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-md-12">
+            <label class="form-inline">Lista de libros</label>
+            <select id="bookSelection" class="form-control" name="bookSelection" multiple>
+                @foreach (var book in Model.BookSearchList)
+                {
+                    <option value="@book.BookId">@book.Title</option>
+                }
+            </select>
+        </div>
+
+    </div>

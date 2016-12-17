@@ -1,0 +1,33 @@
+﻿@using ViewModels
+@model NavbarModel
+
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">WebSiteName</a>
+        </div>
+        <ul class="nav navbar-nav">
+            <li class="active"><a href="@Url.Action("Index", "Home")">Principal</a></li>
+            @if (Model.IsAdmin)
+            {
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">Administrar<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">Libros</a></li>
+                    </ul>
+                </li>
+            }
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+            @if (Model.IsLogged)
+            {
+                <li><p class="navbar-text">Hola @Model.UserName</p></li>
+                @Html.Partial("LogoutLink");
+            }
+            else
+            {
+                @Html.Partial("LoginLink");
+            }
+        </ul>
+    </div>
+</nav>

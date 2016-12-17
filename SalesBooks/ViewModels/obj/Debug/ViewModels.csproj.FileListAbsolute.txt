@@ -1,0 +1,9 @@
+D:\Web Page Projects\SalesBooks\ViewModels\bin\Debug\ViewModels.dll
+D:\Web Page Projects\SalesBooks\ViewModels\bin\Debug\ViewModels.pdb
+D:\Web Page Projects\SalesBooks\ViewModels\obj\Debug\ViewModels.csprojResolveAssemblyReference.cache
+D:\Web Page Projects\SalesBooks\ViewModels\obj\Debug\ViewModels.dll
+D:\Web Page Projects\SalesBooks\ViewModels\obj\Debug\ViewModels.pdb
+D:\Web Page Projects\SalesBooks\ViewModels\bin\Debug\DAL.dll
+D:\Web Page Projects\SalesBooks\ViewModels\bin\Debug\EntityFramework.dll
+D:\Web Page Projects\SalesBooks\ViewModels\bin\Debug\DAL.pdb
+D:\Web Page Projects\SalesBooks\ViewModels\bin\Debug\EntityFramework.xml

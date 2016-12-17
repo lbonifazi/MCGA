@@ -1,0 +1,48 @@
+﻿@using ViewModels
+@model UserModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section TitleSection{
+    Ingresar
+}
+
+@section ContentBody{
+<div class="container">
+    <a href="@Url.Action("Index", "Home")">
+        <img class="center-block img-rounded" style="width:50px" src="~/Images/home_logo.png" />
+    </a>
+    <br />
+    <div class="panel panel-default col-md-4 col-md-offset-4">
+        <h3>Ingresar</h3>
+        @Html.ValidationMessage("AuthenticationError", new { style = "color:red;" })
+        <form name="LoginForm" action="@Url.Action("DoLogin", "Authentication")" method="post">
+            <div class="form-group">
+                <label for="email">Email</label>
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                    <input type="email" class="form-control" id="email" name="Email" value="@Model.Email" required title="Ingrese su email" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="form-inline">Contraseña</label>
+                <a class="pull-right" href="#">¿Olvidaste tu contraseña?</a><br />
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                    <input class="form-control" type="password" name="Password" required title="Ingrese la contraseña" oninvalid="setCustomValidity('La contraseña es requerida')" onchange="try{setCustomValidity('')}catch(e){}" />
+                </div>
+            </div>
+            <div class="form-group">
+                <input class="btn btn-primary btn-group btn-group-justified" type="submit" name="submitButton" value="Ingresar" />
+            </div>
+        </form>
+        <hr class="divider" />
+        <div class="form-group">
+            <span>¿Nuevo usuario?</span>
+            <a href="@Url.Action("Registration", "User")">Registrarse</a>
+        </div>
+    </div>
+</div>
+}

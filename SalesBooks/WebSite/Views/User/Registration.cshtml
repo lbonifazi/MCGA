@@ -1,0 +1,99 @@
+﻿@using ViewModels
+@model UserModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section HeaderSection{
+    <script>
+        var app = angular.module('myApp', []);
+
+        var compareTo = function () {
+            return {
+                require: "ngModel",
+                scope: {
+                    otherModelValue: "=compareTo"
+                },
+                link: function (scope, element, attributes, ngModel) {
+
+                    ngModel.$validators.compareTo = function (modelValue) {
+                        return modelValue == scope.otherModelValue;
+                    };
+
+                    scope.$watch("otherModelValue", function () {
+                        ngModel.$validate();
+                    });
+                }
+            };
+        };
+
+        app.directive("compareTo", compareTo);
+    </script>
+    <script type="text/javascript" src="~/Content/sbstyle.css"> </script>
+}
+
+@section TitleSection{
+    Registro
+}
+
+@section ContentBody{
+    <div class="container">
+        <a href="@Url.Action("Index", "Home")">
+            <img class="center-block img-rounded" style="width:50px" src="~/Images/home_logo.png" />
+        </a>
+        <br />
+        <div class="panel panel-default col-md-4 col-md-offset-4" ng-app="myApp">
+            <h3>Registro</h3>
+            @Html.ValidationMessage("RegistrationError", new { style = "color:red;" })
+            <form name="registrationForm" action="/User/DoRegistration" method="post">
+                <div class="form-group">
+                    <label class="form-inline">Nombre de Usuario</label><br />
+                    <input class="form-control" type="text" name="UserName" value="@Model.UserName"
+                           required
+                           title="Ingrese el nombre de usuario,"
+                           oninvalid="setCustomValidity('El nombre de usuario es requerido')"
+                           onchange="try{setCustomValidity('')}catch(e){}" />
+                </div>
+                <div class="form-group">
+                    <label class="form-inline">Email</label><br />
+                    <input class="form-control" type="email" name="Email" value="@Model.Email"
+                           required
+                           title="Ingrese un correo electronico,"
+                           oninvalid="setCustomValidity('El email no es correcto')"
+                           onchange="try{setCustomValidity('')}catch(e){}" />
+                </div>
+                <div class="form-group">
+                    <label class="form-inline">Contraseña</label><br />
+                    <input class="form-control" type="password" name="Password" value=""
+                           required
+                           title="Ingrese una contraseña"
+                           oninvalid="setCustomValidity('La contraseña es requerida')"
+                           onchange="try{setCustomValidity('')}catch(e){}"
+                           ng-model="Password" />
+                </div>
+                <div class="form-group">
+                    <label class="form-inline">Repetir contraseña</label><br />
+                    <input class="form-control" type="password" name="RepeatPassword" value=""
+                           required
+                           title="Repita el ingreso de la contraseña"
+                           oninvalid="setCustomValidity('La contraseña es requerida')"
+                           onchange="try{setCustomValidity('')}catch(e){}"
+                           compare-to="Password"
+                           ng-model="RepeatPassword" />
+                    <span style="color:red" ng-show="registrationForm.SubmitButton.$touched && registrationForm.RepeatPassword.$error.compareTo">Las contraseñas deben coincidir</span>
+                </div>
+                <div class="form-group">
+                    <input class="btn btn-primary btn-group btn-group-justified" type="submit" name="SubmitButton" value="Crear nuevo usuario"
+                           ng-model="SubmitButton"
+                           ng-submit="registrationForm.$valid" />
+                </div>
+            </form>
+            <hr class="divider" />
+            <div class="form-group">
+                <span>¿Ya tienes una cuenta?</span>
+                <a href="@Url.Action("Login","Authentication")">Ingresar</a>
+            </div>
+        </div>
+</div>
+}

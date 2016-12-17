@@ -1,0 +1,33 @@
+﻿@using ViewModels
+@model UserModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section TitleSection{
+    Confirmar Cuenta
+}
+
+@section ContentBody{
+ <div class="container">
+    <br />
+    <a href="@Url.Action("Index", "Home")">
+        <img class="center-block img-rounded" style="width:50px" src="~/Images/home_logo.png" />
+    </a>
+    <br />
+    @if (Model.UserName != "")
+    {
+        <div class="text-center">
+            <span class="text-center">Su cuenta no se pudo activar correctamente.</span>
+        </div>
+    }
+    else
+    {
+        <div class="text-center">
+            <span class="text-center">Su cuenta '@Model.UserName' se activo correctamente.</span>
+            <a href="~/Authentication/Login">Ingresar</a>
+        </div>
+    }
+</div>
+}

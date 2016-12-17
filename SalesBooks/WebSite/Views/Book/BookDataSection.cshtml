@@ -1,0 +1,112 @@
+﻿@model ViewModels.BookModel
+<form name="AddBookForm" action="/Book/SaveBook" method="post" ng-app="" ng-init="disabled=true">
+    <h3>Vista de Libro</h3>
+    <div class="row">
+        <div class="form-group col-md-12">
+            <label class="form-inline">Adminitrar</label>
+            <div class="input-group">
+                <input id="btnEdit" class="btn btn-primary" type="button" name="CancelButton" value="Editar" ng-model="btnEdit" ng-click="disabled=false" />
+                <input class="btn btn-primary" type="button" name="AddButton" value="Nuevo" />
+                <input class="btn btn-primary" type="button" name="CancelButton" value="Cancelar" />
+            </div>
+        </div>
+    </div>
+    <h3>Datos del Libro</h3>
+    <input name="book.BookId" value="@Model.Book.BookId" hidden />
+    <div class="row">
+        <div class="form-group col-md-6">
+            <label class="form-inline">Nombre del Libro</label>
+            <input class="form-control" type="text" name="book.Title" value="@Model.Book.Title" title="Ingrese el nombre del libro" required ng-disabled="disabled" />
+        </div>
+        <div class="form-group col-md-6">
+            <label class="form-inline">ISBN</label>
+            <input class="form-control" type="text" name="book.ISBN" value="@Model.Book.ISBN" title="Ingrese el ISBN del libro" required ng-disabled="disabled" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-md-6">
+            <label class="form-inline">Autor/es</label>
+            <select multiple class="form-control" required ng-disabled="disabled">
+                @foreach (var author in Model.AuthorAllList)
+                {
+                    if (Model.Book.Authors.Contains(author.LastName + ", " + author.FirstName))
+                    {
+                        <option value="@author.AuthorID" selected>@author.LastName, @author.FirstName</option>
+                    }
+                    else
+                    {
+                        <option value="@author.AuthorID">@author.LastName, @author.FirstName</option>
+                    }
+                }
+            </select>
+        </div>
+        <div class="form-group col-md-6">
+            <label class="form-inline">Categoria/s</label>
+            <select multiple class="form-control" required ng-disabled="disabled">
+                @foreach (var subject in Model.SubjectAllList)
+                {
+                    if (Model.Book.Subjects.Contains(subject.Name))
+                    {
+                        <option value="@subject.SubjectId" selected>@subject.Name</option>
+                    }
+                    else
+                    {
+                        <option value="@subject.SubjectId">@subject.Name</option>
+                    }
+                }
+            </select>
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-md-6">
+            <label class="form-inline">Editorial</label>
+            <select class="form-control" required ng-disabled="disabled"> 
+                @foreach (var publisher in Model.PublisherAllList)
+                {
+                    if (Model.Book.PublisherId == publisher.PublisherID)
+                    {
+                        <option value="@publisher.PublisherID" selected>@publisher.Name</option>
+                    }
+                    else
+                    {
+                        <option value="@publisher.PublisherID">@publisher.Name</option>
+                    }
+                }
+            </select>
+        </div>
+        <div class="form-group col-md-6">
+            <label class="form-inline">Año de publicación</label>
+            <input class="form-control" name="Book.PublishYear" value="@Model.Book.PublishYear" title="Ingrese el año de publicación del libro" ng-disabled="disabled"/>
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-md-6">
+            <label class="form-inline">Resumen</label>
+            <textarea class="form-control" name="Book.Abstract" title="Ingrese el Resumen del libro" ng-disabled="disabled">@Model.Book.Abstract</textarea>
+        </div>
+        <div class="form-group col-md-6">
+            <label class="form-inline">Precio</label>
+            <div class="input-group">
+                <span class="input-group-addon">$</span>
+                <input class="form-control" type="text" name="Book.Price" value="@Model.Book.Price" title="Ingrese el precio del libro" required ng-disabled="disabled"/>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-md-6">
+            <label class="form-inline">Edición</label>
+            <input class="form-control" type="text" name="Book.Edition" value="@Model.Book.Edition" title="Ingrese la edición del libro" ng-disabled="disabled"/>
+        </div>
+        <div class="form-group col-md-6">
+            <label class="form-inline">Volumen</label>
+            <input class="form-control" type="text" name="Book.Volume" value="@Model.Book.Volume" title="Ingrese el volumen del libro" ng-disabled="disabled"/>
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-md-12">
+            <input class="btn btn-primary" type="submit" name="SubmitButton" value="Guardar"
+                   ng-model="SubmitButton"
+                   ng-submit="registrationForm.$valid" />
+        </div>
+    </div>
+</form>
