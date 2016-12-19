@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DAL.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,7 +18,7 @@ namespace ViewModels
         public int PublisherId { get; set; }
         public int? PublishYear { get; set; }
         public decimal Price { get; set; }
-        public List<string> Authors { get; set; }
+        public List<Author> Authors { get; set; }
         public List<string> Subjects { get; set; }
         public int Stars { get; set; }
         public int Reviews { get; set; }

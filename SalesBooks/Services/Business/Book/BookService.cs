@@ -47,17 +47,89 @@ namespace Services
             return bmList;
         }
 
-        public static bool Save(Books book)
+        public static void NewBook(Books book, List<int> authors, List<int> subjects)
         {
-            var result = DB.Book.SingleOrDefault(b => b.BookId == book.BookId);
-            if (result != null)
-            {
-                result.Abstract = book.Abstract;
-                result.Edition = book.Edition;
-                result.PublishYear = book.PublishYear;
+            Book newBook = new Book();
+            newBook.Title = book.Title;
+            newBook.ISBN = book.ISBN;
+            newBook.Abstract = book.Abstract;
+            newBook.Edition = book.Edition;
+            newBook.Volume = book.Volume;
+            newBook.PublishYear = book.PublishYear;
+            newBook.PublisherId = book.PublisherId;
 
-                DB.SaveChanges();
-                return true;
+            DB.Book.Add(newBook);
+            DB.SaveChanges();
+
+            Price bookPrice = new Price();
+            bookPrice.BookId = newBook.BookId;
+            bookPrice.Cost = book.Price;
+            bookPrice.Date = DateTime.Now.Date;
+            DB.Price.Add(bookPrice);
+
+            foreach (int authorId in authors)
+            {
+                DB.BookAuthor.Add(new Book_Author() { BookId = newBook.BookId, AuthorId = authorId });
+            }
+
+            foreach (int subId in subjects)
+            {
+                DB.BookSubject.Add(new Book_Subject() { BookId = newBook.BookId, SubjectId = subId });
+            }
+
+            DB.SaveChanges();
+        }
+
+        public static bool UpdateBook(Books book,List<int> authors, List<int> subjects)
+        {
+            var DBBook = DB.Book.SingleOrDefault(b => b.BookId == book.BookId);
+            decimal currentPrice = DB.Price.Where(p => p.BookId == book.BookId).OrderByDescending(o => o.Date).First().Cost;
+
+            if (DBBook != null)
+            {
+                DBBook.Title = book.Title;
+                DBBook.ISBN = book.ISBN;
+                DBBook.Abstract = book.Abstract;
+                DBBook.Edition = book.Edition;
+                DBBook.Volume = book.Volume;
+                DBBook.PublishYear = book.PublishYear;
+                DBBook.PublisherId = book.PublisherId;
+
+                List<int> currentAutorList = DB.BookAuthor.Where(b => b.BookId == book.BookId).Select(s=> s.AuthorId).ToList();
+
+                foreach (int authorId in authors)
+                {  
+                    if (!currentAutorList.Contains(authorId))
+                    {
+                        DB.BookAuthor.Add(new Book_Author() { BookId = book.BookId, AuthorId = authorId });
+                    }
+                }
+                foreach (int au in currentAutorList)
+                {
+                    if (!authors.Contains(au))
+                    {
+                        Book_Author ba = DB.BookAuthor.Where(b => b.BookId == book.BookId && b.AuthorId == au).FirstOrDefault();
+                        DB.BookAuthor.Remove(ba);
+                    }
+                }
+
+                foreach (Book_Subject ba in DB.BookSubject.Where(b => b.BookId == book.BookId).ToList())
+                {
+                    DB.BookSubject.Remove(ba);
+                }
+                foreach (int subId in subjects)
+                {
+                    DB.BookSubject.Add(new Book_Subject() { BookId = book.BookId, SubjectId = subId });
+                }
+
+                if (currentPrice != book.Price)
+                {
+                    var DBPrice = DB.Price.ToList();
+                    DBPrice.Add(new Price { BookId = book.BookId, Cost = currentPrice, Date = DateTime.Now.Date });
+                }
+
+                if (DB.SaveChanges() > 0) return true;
+                else return false;
             }
             return false;
         }

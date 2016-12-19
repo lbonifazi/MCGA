@@ -1,4 +1,5 @@
-﻿using Services;
+﻿using DAL.Entities;
+using Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,7 +17,7 @@ namespace WebSite.Controllers
         {
             BookModel bookModel = new BookModel();
             bookModel.Book = new Books();
-            bookModel.Book.Authors = new List<string>();
+            bookModel.Book.Authors = new List<Author>();
             bookModel.Book.Subjects = new List<string>();
             bookModel.AuthorAllList = AuthorService.GetAll();
             bookModel.SubjectAllList = SubjectService.GetAll();
@@ -26,13 +27,19 @@ namespace WebSite.Controllers
             return View("Admin", bookModel);
         }
 
-        public ActionResult SaveBook(Books book)
+        [HttpPost]
+        public ActionResult SaveBook(Books book, List<int> authors, List<int> subjects)
         {
-            if (BookService.Save(book))
+            if (book.BookId == 0)
             {
-                return Content("Se guardo correctamente");
+                BookService.NewBook(book, authors, subjects);
+                return Admin();
             }
-            return Content("algo pacho");
+            else
+            {
+                BookService.UpdateBook(book, authors, subjects);
+                return Admin();
+            }
         }
 
         [HttpGet]

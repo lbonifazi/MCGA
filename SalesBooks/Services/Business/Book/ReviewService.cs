@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DAL.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,14 +11,17 @@ namespace Services.Business.Book
     {
         public static int GetStars(int bookId)
         {
-            double stars = DB
+            List<Review> stars = DB
                             .Review
                             .Join(DB.BookReview, r => r.ReviewId, br => br.ReviewId, (r, br) => new { r, br })
                             .Where(w => w.br.BookId == bookId)
                             .Select(s => s.r)
-                            .ToList().Average(a => a.Star);
-
-            return (int)Math.Round(stars);
+                            .ToList();
+            if (stars.Count > 0)
+            {
+                return (int)Math.Round(stars.Average(a => a.Star));
+            }
+            else return 0;
         }
 
         public static int GetAmountReview(int bookId)

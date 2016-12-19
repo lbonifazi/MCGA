@@ -14,12 +14,12 @@ namespace Services
             return DB.Author.OrderByDescending(a => a.LastName).ToList();
         }
 
-        internal static List<string> GetAuthors(int bookId)
+        internal static List<Author> GetAuthors(int bookId)
         {
             return DB.
                    Author.
                    Join(DB.BookAuthor, a => a.AuthorID, ba => ba.AuthorId, (a, ba) => new { a, ba }).
-                   Where(w => w.ba.BookId == bookId).Select(s => s.a.LastName + ", " + s.a.FirstName).ToList();
+                   Where(w => w.ba.BookId == bookId).Select(s => s.a).ToList();
         }
     }
 }
