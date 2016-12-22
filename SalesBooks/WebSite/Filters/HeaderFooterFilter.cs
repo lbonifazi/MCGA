@@ -28,7 +28,7 @@ namespace WebSite.Filters
                     }
 
                     bvm.FooterData = new FooterModel();
-                    bvm.FooterData.CompanyName = "Nombre de la Compañia";
+                    bvm.FooterData.CompanyName = "MCGAStore";
                     bvm.FooterData.Year = DateTime.Now.Year.ToString();
                 }
             }
