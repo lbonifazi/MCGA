@@ -22,7 +22,7 @@ namespace WebSite.Filters
 
                     if (filterContext.HttpContext.Session["UserName"] != null)
                     {
-                        bvm.NavbarData.IsAdmin = Convert.ToBoolean(filterContext.HttpContext.Session["IsAdmin"] != null) ? true : false;
+                        bvm.NavbarData.IsAdmin = Convert.ToBoolean(filterContext.HttpContext.Session["IsAdmin"]);
                         bvm.NavbarData.UserName = filterContext.HttpContext.Session["UserName"].ToString();
                         bvm.NavbarData.IsLogged = true;
                     }

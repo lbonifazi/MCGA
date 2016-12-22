@@ -23,16 +23,11 @@ namespace WebSite.Controllers
             User user = UserService.ActivateUser(token);
 
             UserModel userModel = new UserModel();
-
             if (user != null)
             {
                 userModel.UserName = user.UserName;
-                return View("ConfirmAccount", userModel);
             }
-            else
-            {
-                return View("ConfirmAccount", userModel);
-            }
+            return View("ConfirmAccount", userModel);
         }
 
         [HttpPost]

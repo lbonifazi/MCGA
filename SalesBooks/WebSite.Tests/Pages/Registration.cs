@@ -61,7 +61,7 @@ namespace WebSite.Tests
 
             //Validate wrong email
             user.UserName = "user abc";
-            user.Email = "abc.com";
+            user.Email = "abc@gmail.com";
             user.Password = "abc";
             repeatPassword = "abc";
             result = userController.DoRegistration(user, repeatPassword);

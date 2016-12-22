@@ -18,7 +18,7 @@
                 $.ajax({
                     url: "@Url.Action("EditBook", "Book")",
                     type: "GET",
-                data: { bookId: val }
+                    data: { bookId: val }
             })
             .done(function(partialViewResult) {
                 $("#BookDataSection").html(partialViewResult);

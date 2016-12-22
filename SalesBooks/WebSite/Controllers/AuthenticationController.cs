@@ -54,8 +54,7 @@ namespace WebSite.Controllers
                     
                     FormsAuthentication.SetAuthCookie(u.Email, false);
                     Session["IsAdmin"] = IsAdmin;
-                    Session["UserName"] = sr.ReturnName;
-                    
+                    Session["UserName"] = sr.ReturnName;                    
 
                     return RedirectToAction("Index", "Home");
                 }
